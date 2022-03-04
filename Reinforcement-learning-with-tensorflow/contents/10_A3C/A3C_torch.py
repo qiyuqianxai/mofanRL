@@ -113,7 +113,7 @@ class A3C(object):
     def pull_global(self):
         self.ac_net.load_state_dict(self.globalAC.state_dict())
 
-    def choose_action(self,s):
+    def chose_action(self,s):
         self.ac_net.eval()
         with torch.no_grad():
             s = s[np.newaxis, :]
@@ -147,7 +147,7 @@ class Worker(object):
             while True:
                 if self.name == 'W_1':
                     self.env.render()
-                a = self.AC.choose_action(s)
+                a = self.AC.chose_action(s)
                 s_, r, done, info = self.env.step(a)
                 if done:
                     r = -5

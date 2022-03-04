@@ -8,7 +8,7 @@ import gym
 import torch.nn.functional as F
 import time
 
-ENV_NAME = 'Pendulum-v0'
+ENV_NAME = 'Pendulum-v1'
 env = gym.make(ENV_NAME)
 env = env.unwrapped
 env.seed(1)
@@ -31,7 +31,7 @@ class get_config():
     n_observation = env.observation_space.shape[0]
     action_bound = env.action_space.high
     lr = 0.01
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "cpu"#"cuda" if torch.cuda.is_available() else "cpu"
     reward_decay = 0.95
     GAMMA = 0.9
     rep_iter_a = 600
@@ -108,7 +108,6 @@ class Actor(object):
         # update target_net
         for e_param, t_param in zip(self.eval_net.parameters(),self.target_net.parameters()):
             t_param.data = e_param.data*(1-self.tau) + t_param.data*self.tau
-
 
     def choose_action(self, s):
         s = s[np.newaxis, :]    # single state
